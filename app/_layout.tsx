@@ -5,6 +5,6 @@ export default function RootLayout() {
     screenOptions={{
       headerShown: false,
     }}>
-      <Stack.Screen name="profile" />
+      <Stack.Screen name="index" />
 </Stack>;
 }
