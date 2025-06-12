@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     padding: 9,
     textAlign: 'center',
-    fontFamily: 'avenir',
+    fontFamily: 'Raleway_300Light',
   },
   middle_font: {
     width: '100%',
     fontSize: 28,
     paddingHorizontal: 10,
-    fontFamily: 'avenir',
+    fontFamily: 'NunitoSans_200Light',
   },
 
   list: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button_field: {
-    width: '30%',
+    width: '100%',
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#333333',
