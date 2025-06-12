@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     padding: 9,
     textAlign: 'center',
-    fontFamily: 'Raleway_300Light',
+    fontFamily: 'Raleway_400Regular',
   },
   middle_font: {
     width: '100%',
     fontSize: 28,
     paddingHorizontal: 10,
-    fontFamily: 'NunitoSans_200Light',
+    fontFamily: 'NunitoSans_300Light',
   },
 
   list: {
