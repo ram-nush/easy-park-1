@@ -7,7 +7,7 @@ const PORT = 3000;
 // If using local MongoDB server
 //const MONGO_URI = 'mongodb://127.0.0.1:27017/ProfileDB';
 // Online MongoDB server
-const MONGO_URI = 'mongodb+srv://naveenmkwork:0Uj04AkRqwkosYDW@easypark.xgklksf.mongodb.net/?retryWrites=true&w=majority&appName=EasyPark';
+const MONGO_URI = secrets.MONGODB_URI;
 
 app.use(cors());
 app.use(express.json());
