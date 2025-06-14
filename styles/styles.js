@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderColor: '#000000',
   },
+  toggle_button_container: {
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'flex-end',
+  },
 
   big_font: {
     width: '100%',
@@ -36,6 +41,12 @@ const styles = StyleSheet.create({
   middle_font: {
     width: '100%',
     fontSize: 28,
+    paddingHorizontal: 10,
+    fontFamily: 'NunitoSans_300Light',
+  },
+  small_font: {
+    width: '100%',
+    fontSize: 20,
     paddingHorizontal: 10,
     fontFamily: 'NunitoSans_300Light',
   },
@@ -66,6 +77,15 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 20,
     borderWidth: 2,
+    borderColor: '#333333',
+    padding: 2,
+    backgroundColor: '#79badd',
+  },
+  circular_button: {
+    width: '100%',
+    borderRadius: '50%',
+    borderWidth: 2,
+    alignSelf: 'flex-end',
     borderColor: '#333333',
     padding: 2,
     backgroundColor: '#79badd',
