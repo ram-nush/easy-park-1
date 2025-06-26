@@ -1,12 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Redirect } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
-export default function MapView() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home Page</Text>
-    </View>
-  );
+export default function Index() {
+  return <Redirect href="/map" />;
 }
+
+// export default function Home() {
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.text}>Home Page</Text>
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {

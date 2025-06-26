@@ -14,12 +14,17 @@
     },
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+  "NSLocationWhenInUseUsageDescription": "We need your location to show your position on the map"
+}
+
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
       },
       "edgeToEdgeEnabled": true
     },

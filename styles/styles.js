@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
   },
   toggle_button_container: {
-    flexDirection: 'column',
-    flex: 1,
-    alignItems: 'flex-end',
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    zIndex: 10,
   },
 
   big_font: {
@@ -82,13 +83,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#79badd',
   },
   circular_button: {
-    width: '100%',
-    borderRadius: '50%',
+    width: 60,
+    height: 60,
+    borderRadius: 30 ,
     borderWidth: 2,
+    alignContent: 'center',
+    //justifyContent: 'center',
     alignSelf: 'flex-end',
     borderColor: '#333333',
-    padding: 2,
+    padding: 12,
     backgroundColor: '#79badd',
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
 
