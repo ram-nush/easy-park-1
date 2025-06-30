@@ -4,29 +4,41 @@
     "slug": "easy-park-1",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/logo.jpg",
     "scheme": "easypark1",
     "userInterfaceStyle": "automatic",
     "splash": {
-        "image": "./assets/images/full_logo.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#79badd"
+      "image": "./assets/images/full_logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#79badd"
     },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-  "NSLocationWhenInUseUsageDescription": "We need your location to show your position on the map"
-}
-
+        "NSLocationWhenInUseUsageDescription": "We need your location to show your position on the map"
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyAwR4Xmi5J0uRFqLRoIA4A-Nybj54Cvbnc"
+      },
+      "bundleIdentifier": "com.anonymous.easypark1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff",
-        "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+        "permissions": [
+          "ACCESS_FINE_LOCATION",
+          "ACCESS_COARSE_LOCATION",
+          "ACCESS_FINE_LOCATION",
+          "ACCESS_COARSE_LOCATION"
+        ]
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "config": {
+        "apikey": "AIzaSyDobwn2FfzQpEuZgBv9ifhF71XLxXD9SMA"
+      },
+      "package": "com.anonymous.easypark1"
     },
     "web": {
       "bundler": "metro",
