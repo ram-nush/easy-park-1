@@ -1,12 +1,7 @@
 import styles from '@/styles/styles';
 import { NunitoSans_300Light } from "@expo-google-fonts/nunito-sans";
 import { Raleway_400Regular } from "@expo-google-fonts/raleway";
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid';
-
-//import PORT from '@/server/index';
-
 import { useFonts } from "expo-font";
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -17,10 +12,12 @@ export default function Profile() {
         NunitoSans_300Light,
     });
 
+    // check if fonts are loaded before showing screen
+    // throws error if this is not done
     if (!fontsLoaded) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" />
                 <Text>Loading fonts...</Text>
             </View>
         );
@@ -28,29 +25,20 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
-        <Header />
         <ProfileForm />
     </View>
   );
 }
 
-const getOrCreateDeviceId = async () => {
-  let id = await AsyncStorage.getItem('device_id');
-  if (!id) {
-    id = uuid.v4().toString();
-    await AsyncStorage.setItem('device_id', id);
-  }
-  return id;
-};
+// const Header = () => {
+//     return (
+//         <View style={styles.first_pane}>
+//             <Text style={styles.big_font}>My Profile</Text>
+//         </View>
+//     );
+// }
 
-const Header = () => {
-    return (
-        <View style={styles.first_pane}>
-            <Text style={styles.big_font}>My Profile</Text>
-        </View>
-    );
-}
-
+// formatting for each component
 const Bar = ({ label, placeholder, value, onChangeText }) => {
     return (
         <View style={styles.pane}>
@@ -58,7 +46,7 @@ const Bar = ({ label, placeholder, value, onChangeText }) => {
             <View style={styles.pane}>
                 <TextInput
                     placeholder={placeholder} 
-                    placeholderTextColor="gray" 
+                    placeholderTextColor="grey" 
                     value={value} 
                     onChangeText={onChangeText} 
                     style={styles.search_field}
@@ -69,13 +57,17 @@ const Bar = ({ label, placeholder, value, onChangeText }) => {
 }
 
 const ProfileForm = () => {
+    // create profile data variable
+    // take in 5 key information
     const [profileData, setProfileData] = useState({
         name: '',
         brand: '',
         model: '',
+        type: '',
         plate: ''
     })
 
+    // listener to track current value of any field in profile data
     const onFieldChange = (field) => (text) => {
         setProfileData(prev => ({
             ...prev,
@@ -84,62 +76,38 @@ const ProfileForm = () => {
         console.log(field, "changed to", text);
     }
 
-    // Save the profile information
+    // save the profile information to AsyncStorage
     const savePressed = async () => {
         try {
-            // Get the device ID
-            const deviceId = await getOrCreateDeviceId();
-            console.log(deviceId);
-
-            // Create request and retrieve response
-            const response = await fetch(`http://172.20.10.13:3000/api/profile`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    deviceId: deviceId,
-                    profileData: profileData,
-                }),
-            });
-
-            // Parse JSON response
-            const data = await response.json();
-
-            // If status code is 200-299, show user that profile has been saved
-            // Otherwise, return the error
-            if (response.ok) {
-                Alert.alert('Success', 'Profile saved!');
-            } else {
-                if (data.message) {
-                    Alert.alert('Error', data.message);
-                } else {
-                    Alert.alert('Error', 'Failed to save profile');
-                }
-            }
+            // Save to local storage
+            const jsonProfile = JSON.stringify(profileData);
+            await AsyncStorage.setItem('user_profile', jsonProfile);
+            Alert.alert('Success', 'Profile saved');
         } catch (error) {
             console.error('Save error:', error);
-            Alert.alert('Error', 'Network error while saving profile');
+            Alert.alert('Error', 'Failed to save profile locally');
         }
     };
 
-    // Retrieve profile information using device ID
+    // load profile information from local storage
     useEffect(() => {
-        const fetchProfile = async () => {
+        const loadProfile = async () => {
             try {
-                const deviceId = await getOrCreateDeviceId();
-                const response = await fetch(`http://172.20.10.13:3000/api/profile/${deviceId}`);
-                const data = await response.json();
+                //retrieve the profile
+                const jsonProfile = await AsyncStorage.getItem('user_profile');
 
-                if (response.ok && data) {
-                    setProfileData(data.profileData);
+                //if there is no profile, set up a new one
+                if (jsonProfile != null) {
+                    setProfileData(JSON.parse(jsonProfile));
                 }
             } catch (error) {
-                console.error('Fetch error:', error);
-                Alert.alert('Error', 'Network error while fetching profile');
+                console.error('Load error:', error);
+                Alert.alert('Error', 'Failed to load profile from device');
             }
         };
 
-        // Call function immediately, so the fetch starts when the component mounts
-        fetchProfile();
+        // call function immediately, so loading happens when the component mounts
+        loadProfile();
     }, []); // Ensures effect runs only once
 
     return (
@@ -166,12 +134,18 @@ const ProfileForm = () => {
             />
 
             <Bar
+                label="Vehicle Type"
+                placeholder="Enter vehicle type"
+                value={profileData.type}
+                onChangeText={onFieldChange('type')}
+            />
+
+            <Bar
                 label="License Plate"
                 placeholder="Enter license plate"
                 value={profileData.plate}
                 onChangeText={onFieldChange('plate')}
             />
-
             <View style={styles.pane}>
                 <TouchableOpacity onPress={savePressed}>
                     <View style={styles.button_field}>
