@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#79badd',
   },
   first_pane: {
-    marginTop: 67,
+    //marginTop: 67,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 10,
   },
-
   big_font: {
     width: '100%',
     fontSize: 32,
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
   },
   middle_font: {
     width: '100%',
-    fontSize: 28,
+    fontSize: 20,
     paddingHorizontal: 10,
     fontFamily: 'NunitoSans_300Light',
   },
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontFamily: 'NunitoSans_300Light',
   },
-
   list: {
     width: '100%',
     flexDirection: 'column',
@@ -61,25 +59,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#eeeeee',
   },
   search_pane: {
+    borderColor: '#000000',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'between',
+     height: 40,
+     borderRadius: 10,
+     padding: 10,
+     margin: 5,
+     fontSize: 17
   },
   search_field: {
-    width: '95%',
-    borderRadius: 20,
+    width: '100%',
+    height: 40,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: '#333333',
     padding: 10,
     margin: 10,
+    fontSize: 17,
   },
   button_field: {
     width: '100%',
-    borderRadius: 20,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: '#333333',
-    padding: 2,
+    padding: 7,
     backgroundColor: '#79badd',
   },
   circular_button: {
@@ -88,7 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 30 ,
     borderWidth: 2,
     alignContent: 'center',
-    //justifyContent: 'center',
     alignSelf: 'flex-end',
     borderColor: '#333333',
     padding: 12,
@@ -97,7 +102,13 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+    zIndex: 0
   },
+screen: {
+  flex: 1,
+  position: 'relative',
+  backgroundColor: '#ffffff',
+},
 });
 
 export default styles;
