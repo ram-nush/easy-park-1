@@ -11,7 +11,7 @@ if(!location)
 const [userSearch, setUserSearch] = useState(''); 
 const mapRef = useRef(null);
 
-const API_KEY = 'AIzaSyDJXyWnsMeJS6iQl0Tm8kKGzmxJ4qxpg18'
+const API_KEY = ${{ secrets.PLAECS_API_KEY }}
 
 const conductSearch = async () => {
   const cleaned = userSearch.trim();
