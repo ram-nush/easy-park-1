@@ -60,15 +60,15 @@ const styles = StyleSheet.create({
   },
   search_pane: {
     borderColor: '#000000',
-    width: '100%',
+    width: '93%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'between',
      height: 40,
      borderRadius: 10,
-     padding: 10,
+     padding: 0,
      margin: 5,
-     fontSize: 17
+     fontSize: 16
   },
   search_field: {
     width: '100%',
