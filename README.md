@@ -3,8 +3,7 @@ EasyPark is a parking assistant mobile application that aims to reduce your time
 
 The proposed Level of Achievement of this project is Gemini.
 
-![Milestone 2 Poster](https://github.com/user-attachments/assets/d156ec02-a0ab-48f1-9e28-c5a60a3974b8)
-
+![Milestone 3 Poster](https://github.com/user-attachments/assets/9ce63097-e2ad-45ae-a152-2ccd726bbb2d)
 
 # Installation
 1. Clone this repository
