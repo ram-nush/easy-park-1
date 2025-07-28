@@ -5,13 +5,14 @@ import 'react-native-get-random-values';
 import MapView from 'react-native-map-clustering';
 import { Marker } from 'react-native-maps';
 
-export default function MapScreen({ location, carparks, userSearch, searchTrigger }) {
-    useEffect(() => {
+export default function MapScreen({ location, facilities, userSearch, searchTrigger }) {
+  //takes user input and cleans it  
+  useEffect(() => {
       if (!searchTrigger) return;
     const conductSearch = async () => {
       const cleaned = userSearch.trim();
       if (!cleaned) return;
-
+      //feed it into google map API to get lat and lng
       try {
         const request = await fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(cleaned)}&key=${API_KEY}`
@@ -20,9 +21,11 @@ export default function MapScreen({ location, carparks, userSearch, searchTrigge
 
         if (response.status === 'OK' && response.results.length > 0) {
           const { lat, lng } = response.results[0].geometry.location;
+          //animate to the region once we get the lat and lng of the search query
           mapRef.current?.animateToRegion({
             latitude: lat,
             longitude: lng,
+            //sets zoom level
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           });
@@ -35,8 +38,8 @@ export default function MapScreen({ location, carparks, userSearch, searchTrigge
         Keyboard.dismiss();
       }
     };
-
     conductSearch();
+    //search is triggered by the searchbox query
   }, [searchTrigger]);
 
   if (!location) return <Text>No location data available right now</Text>;
@@ -62,7 +65,7 @@ export default function MapScreen({ location, carparks, userSearch, searchTrigge
             longitudeDelta: 0.003,
           }}
         >
-          {carparks.map((carpark, index) => {
+          {facilities.map((carpark, index) => {
             if (!carpark.Location) return null;
             const loc = carpark.Location.split(' ');
             if (loc.length !== 2) return null;
@@ -75,9 +78,15 @@ export default function MapScreen({ location, carparks, userSearch, searchTrigge
               <Marker
                 key={`${carpark.CarParkID}-${index}`}
                 coordinate={{ latitude: lat, longitude: lng }}
-                title={carpark.Development}
-                description={`Available: ${carpark.AvailableLots}`}
+                title={carpark.Name}
+                description={
+                  `Available: ${carpark.AvailableLots} \n` +
+                  `Sheltered: ${carpark.Sheltered === '1' ? "Yes" : "No" }\n` +
+                  `Ramps: ${carpark.Ramps === '1' ? "Yes" : "No" }\n` +
+                  `Electric: ${carpark.Electric === '1' ? "Yes" : "No" }`
+                }
                 tracksViewChanges={false}
+                pinColor={carpark.Electric === '1' ? 'green' : undefined}
               />
             );
           })}
