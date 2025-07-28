@@ -7,23 +7,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          //headerShown: false,
-          tabBarIcon: ({ color, size }) => ( <Ionicons name="home-outline" size={size} color={color} /> ),
-        }}
-      />
-      <Tabs.Screen
-        name="map"
-        options={{
           title: 'Carparks',
           tabBarIcon: ({ color, size }) => ( <Ionicons name="car-outline" size={size} color={color} /> ),
-        }}
-      />
-      <Tabs.Screen
-        name="history"
-        options={{
-          title: 'History',
-          tabBarIcon: ({ color, size }) => ( <Ionicons name="time-outline" size={size} color={color} /> ),
         }}
       />
       <Tabs.Screen
