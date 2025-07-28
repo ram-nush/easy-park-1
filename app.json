@@ -19,7 +19,7 @@
         "NSLocationWhenInUseUsageDescription": "We need your location to show your position on the map"
       },
       "config": {
-        "googleMapsApiKey": ${{ secrets.IOS_API_KEY }}
+        "googleMapsApiKey": "AIzaSyAwR4Xmi5J0uRFqLRoIA4A-Nybj54Cvbnc"
       },
       "bundleIdentifier": "com.anonymous.easypark1"
     },
@@ -36,7 +36,7 @@
       },
       "edgeToEdgeEnabled": true,
       "config": {
-        "apikey": ${{ secrets.ANDROID_API_KEY }}
+        "apikey": "AIzaSyDobwn2FfzQpEuZgBv9ifhF71XLxXD9SMA"
       },
       "package": "com.anonymous.easypark1"
     },
