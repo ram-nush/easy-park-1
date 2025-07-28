@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
   },
   toggle_button_container: {
     position: 'absolute',
-    bottom: 20,
-    right: 20,
+    bottom: 15,
+    right: 15,
     zIndex: 10,
   },
   big_font: {
@@ -94,9 +94,10 @@ const styles = StyleSheet.create({
     borderRadius: 30 ,
     borderWidth: 2,
     alignContent: 'center',
+    alignItems: 'center',
     alignSelf: 'flex-end',
     borderColor: '#333333',
-    padding: 12,
+    justifyContent: 'center',
     backgroundColor: '#79badd',
   },
   map: {
