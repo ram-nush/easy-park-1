@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { Alert, FlatList, Keyboard, Text, View } from 'react-native';
+
+
 //Haversine formula function to get the distance between two points 
 //(described by its longtitude and latitude)
-
-
 function getDistance(lat1, lon1, lat2, lon2) {
     let R = 6371;
     let distanceLat = (lat2 - lat1) * Math.PI / 180;
@@ -20,10 +20,13 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 const API_KEY = 'AIzaSyDJXyWnsMeJS6iQl0Tm8kKGzmxJ4qxpg18';
 
-export default function ListScreen ({ location, carparks, userSearch, searchTrigger }) {
+export default function ListScreen ({ location, facilities, userSearch, searchTrigger, showElectric, showShelter }) {
   const [nearbyCarparks, setNearbyCarparks] = useState([]); 
+  //const [showElectric, setShowElectric] = useState(false);
+
+  //function to generate nearbycarparks
   const getNearbyCarparks = (latt, long) => {
-    const nearbyCPs = carparks.map((carpark) => {
+    const nearbyCPs = facilities.map((carpark) => {
     //if no carpark location, return null
       if (!carpark.Location) return null;
     const loc = carpark.Location.split(' ');
@@ -55,12 +58,23 @@ export default function ListScreen ({ location, carparks, userSearch, searchTrig
   //sorts in accending order
   .sort((a, b) => a.distance - b.distance);
 
-  setNearbyCarparks(nearbyCPs);
+  //further filter the list depending on the toggles given by the app user
+  //filters by electric and or shelter
+  if (showElectric && showShelter) {
+    setNearbyCarparks(nearbyCPs.filter(a=> a.Electric==="1" && a.Sheltered==="1"))
+  } else if (showElectric && !showShelter) {
+     setNearbyCarparks(nearbyCPs.filter(a=>a.Electric==="1"));
+  } else if (!showElectric && showShelter) {
+    setNearbyCarparks(nearbyCPs.filter(a=> a.Sheltered==="1"))
+  } else {
+    setNearbyCarparks(nearbyCPs)
+  };
 };
+
   useEffect(() => {
-        if (!searchTrigger) return;
-      const conductSearch = async () => {
-        const cleaned = userSearch.trim();
+    //clean the input and make a API query
+      const cleaned = userSearch.trim();
+      const conductSearch = async () => { 
         if (!cleaned) return;
   
         try {
@@ -68,11 +82,11 @@ export default function ListScreen ({ location, carparks, userSearch, searchTrig
             `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(cleaned)}&key=${API_KEY}`
           );
           const response = await request.json();
-  
+          //if response is ok, use it to get carparks
           if (response.status === 'OK' && response.results.length > 0) {
             const { lat, lng } = response.results[0].geometry.location;
-              //change this code for list;
               getNearbyCarparks(lat, lng);
+              
           } else {
             Alert.alert('Location not found');
           }
@@ -83,31 +97,38 @@ export default function ListScreen ({ location, carparks, userSearch, searchTrig
         }
       };
       console.log("Triggered search with:", userSearch);
-      conductSearch();
-    }, [searchTrigger]);
 
-    useEffect(() => {
-    if (location && nearbyCarparks.length === 0) {
+  if (cleaned === '') {
+    // If the search box is empty
+    // Fall back to user's current location
+
+    if (location || nearbyCarparks.length === 0) {
+      //Get the information from the GPS to populate nearby carparks
       getNearbyCarparks(location.latitude, location.longitude);
-    }
-  }, [location]);
-  
-  
-    return (
+      }
+  } else {
+    //If the search box is not empty, do the search sequence
+    conductSearch();
+  }
+  //the effect is to be triggered each time the state changes for any of the following params
+  }, [location, searchTrigger, showElectric, showShelter]);
 
-         <FlatList
+    return (
+      <View style={{ flex: 1, position: 'relative', paddingHorizontal: 10 }}>
+        <FlatList
       data={nearbyCarparks}
       //we ran into an issue of having multiple carparks with the same id
       //therefore, we implemented an index to have unique ids for multiple carparks with the same id
       keyExtractor={(item, index) => `${item.CarParkID}-${index}`}
-      contentContainerStyle={{ padding: 10 }}
+      contentContainerStyle={{ padding: 10, width : '100%' }}
       renderItem={({ item }) => (
-        <View style={{ marginBottom: 10, backgroundColor: '#f0f0f0', padding: 12, borderRadius: 8 }}>
-          <Text style={{ fontWeight: 'bold' }}>{item.Development}</Text>
-          <Text>CarkPark ID: {item.CarParkID}</Text>
+        <View style={{ marginBottom: 10, backgroundColor: '#f0f0f0', padding: 10, borderRadius: 8, width : '100%', alignSelf: 'stretch'}}>
+          <Text style={{ fontWeight: 'bold' }}>{item.Name}</Text>
+          <Text>CarkPark ID: {item.ID} | Distance: {item.distance.toFixed(2)} km</Text>
           <Text>Available Lots: {item.AvailableLots}</Text>
-          <Text>Distance: {item.distance.toFixed(2)} km</Text>
+          <Text>Facilities: Sheltered: {item.Sheltered === '1' ? "Yes" : "No" } | Ramps: {item.Ramps === '1' ? "Yes" : "No" } | Electric: {item.Electric === '1' ? "Yes" : "No" }</Text>
         </View>
       )}
     />
+    </View>
   );}
